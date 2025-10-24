@@ -24,7 +24,6 @@ class LaraHooksServiceProvider extends PackageServiceProvider
         $this->bootDirectives();
     }
 
-
     protected function bootDirectives()
     {
         Blade::directive('hook', function ($parameter) {
@@ -32,26 +31,26 @@ class LaraHooksServiceProvider extends PackageServiceProvider
             $parameters = explode(',', $parameter);
             $name = trim($parameters[0], "'");
 
-            return ' <' . '?php
-                $__hook_name="' . $name . '";
+            return ' <'.'?php
+                $__hook_name="'.$name.'";
                 $__definedVars = get_defined_vars();
 
                 ob_start();
                 $__hook_has_endhook = true;
-            ?' . '>';
+            ?'.'>';
         });
 
         Blade::directive('endhook', function ($parameter) {
-            return ' <' . '?php
+            return ' <'.'?php
                 $__definedVars = get_defined_vars();
                 unset($__definedVars["__hook_name"]);
                 unset($__definedVars["__hook_has_endhook"]);
                 $__hook_content = ob_get_clean();
-                $output = \RealZone22\LaraHooks\Facades\LaraHooks::get("'. config('larahooks.blade_prefix') .'$__hook_name",["data"=>$__definedVars],function($data) { return null; },$__hook_content);
+                $output = \RealZone22\LaraHooks\Facades\LaraHooks::get("'.config('larahooks.blade_prefix').'$__hook_name",["data"=>$__definedVars],function($data) { return null; },$__hook_content);
                 unset($__hook_name);
                 unset($__hook_content);
                 if ($output) echo $output;
-            ?' . '>';
+            ?'.'>';
         });
 
         Blade::directive('shook', function ($parameter) {
@@ -59,11 +58,11 @@ class LaraHooksServiceProvider extends PackageServiceProvider
             $parameters = explode(',', $parameter);
             $name = trim($parameters[0], "'");
 
-            return ' <' . '?php
+            return ' <'.'?php
                 $__definedVars = get_defined_vars();
-                $output = \RealZone22\LaraHooks\Facades\LaraHooks::get("'. config('larahooks.blade_prefix') .'' . $name . '",["data"=>$__definedVars],function($data) { return null; });
+                $output = \RealZone22\LaraHooks\Facades\LaraHooks::get("'.config('larahooks.blade_prefix').''.$name.'",["data"=>$__definedVars],function($data) { return null; });
                 if ($output) echo $output;
-            ?' . '>';
+            ?'.'>';
         });
     }
 }

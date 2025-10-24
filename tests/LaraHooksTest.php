@@ -13,7 +13,7 @@ class LaraHooksTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->laraHooks = new LaraHooks();
+        $this->laraHooks = new LaraHooks;
     }
 
     #[Test]
@@ -35,6 +35,7 @@ class LaraHooksTest extends TestCase
 
         $this->laraHooks->listen('test.hook', function ($callback, $output, $params) use (&$called) {
             $called = true;
+
             return 'hook result';
         });
 
@@ -162,7 +163,7 @@ class LaraHooksTest extends TestCase
     public function it_returns_modified_output_from_hook(): void
     {
         $this->laraHooks->listen('test.hook', function ($callback, $output) {
-            return $output . ' modified';
+            return $output.' modified';
         });
 
         $result = $this->laraHooks->get('test.hook', [], function () {}, 'original');
