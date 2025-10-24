@@ -7,7 +7,7 @@
 
 A lightweight, modular hook engine for Laravel that enables extensibility in both backend processes and Blade templates. Create flexible, plugin-like architectures with minimal overhead.
 
-Based on [esemve/Hook](https://github.com/esemve/Hook) by Szalay Vince.
+Based on [esemve/Hook](https://github.com/esemve/Hook) by Bence Kádár.
 
 ## Features
 
