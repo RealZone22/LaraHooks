@@ -8,6 +8,7 @@ use RealZone22\LaraHooks\Facades\LaraHooks;
 class HookListCommand extends Command
 {
     protected $signature = 'hook:list';
+
     protected $description = 'List all registered hooks';
 
     public function handle(): void
@@ -22,7 +23,7 @@ class HookListCommand extends Command
      */
     private function displayRegisteredHooks(): void
     {
-        $list = LaraHooks::getListeners(); // @phpstan-ignore-line
+        $list = LaraHooks::getListeners();
         $array = [];
 
         foreach ($list as $hook => $lister) {
@@ -50,6 +51,7 @@ class HookListCommand extends Command
 
         if (empty($availableHooks)) {
             $this->warn('No hooks found in templates');
+
             return;
         }
 
@@ -83,12 +85,12 @@ class HookListCommand extends Command
      */
     private function scanDirectory(string $directory, array &$hooks): void
     {
-        if (!is_dir($directory)) {
+        if (! is_dir($directory)) {
             return;
         }
 
-        $files = glob($directory . '/*.blade.php');
-        $directories = glob($directory . '/*', GLOB_ONLYDIR);
+        $files = glob($directory.'/*.blade.php');
+        $directories = glob($directory.'/*', GLOB_ONLYDIR);
 
         foreach ($files as $file) {
             $content = file_get_contents($file);
@@ -96,12 +98,12 @@ class HookListCommand extends Command
 
             preg_match_all('/@(?:hook|shook)\([\'"]([^\'"]+)[\'"]\)/', $content, $matches);
 
-            if (!empty($matches[1])) {
+            if (! empty($matches[1])) {
                 foreach ($matches[1] as $hookName) {
-                    if (!isset($hooks[$hookName])) {
+                    if (! isset($hooks[$hookName])) {
                         $hooks[$hookName] = [];
                     }
-                    if (!in_array($relativePath, $hooks[$hookName])) {
+                    if (! in_array($relativePath, $hooks[$hookName])) {
                         $hooks[$hookName][] = $relativePath;
                     }
                 }
@@ -125,6 +127,7 @@ class HookListCommand extends Command
 
         if (empty($classHooks)) {
             $this->warn('No hooks found in classes');
+
             return;
         }
 
@@ -135,7 +138,7 @@ class HookListCommand extends Command
                     $hook,
                     $location['class'],
                     $location['method'],
-                    $location['line']
+                    $location['line'],
                 ];
             }
         }
@@ -161,34 +164,34 @@ class HookListCommand extends Command
      */
     private function scanPhpDirectory(string $directory, array &$hooks): void
     {
-        if (!is_dir($directory)) {
+        if (! is_dir($directory)) {
             return;
         }
 
-        $files = glob($directory . '/*.php');
-        $directories = glob($directory . '/*', GLOB_ONLYDIR);
+        $files = glob($directory.'/*.php');
+        $directories = glob($directory.'/*', GLOB_ONLYDIR);
 
         foreach ($files as $file) {
             $content = file_get_contents($file);
-            $relativePath = str_replace(app_path() . '/', '', $file);
+            $relativePath = str_replace(app_path().'/', '', $file);
 
             preg_match_all('/LaraHooks::get\([\'"]([^\'"]+)[\'"]/', $content, $matches, PREG_OFFSET_CAPTURE);
 
-            if (!empty($matches[1])) {
+            if (! empty($matches[1])) {
                 foreach ($matches[1] as $match) {
                     $hookName = $match[0];
                     $offset = $match[1];
                     $lineNumber = substr_count(substr($content, 0, $offset), "\n") + 1;
                     $classInfo = $this->findClassAndMethod($content, $offset);
 
-                    if (!isset($hooks[$hookName])) {
+                    if (! isset($hooks[$hookName])) {
                         $hooks[$hookName] = [];
                     }
 
                     $hooks[$hookName][] = [
                         'class' => $classInfo['class'] ?: $relativePath,
                         'method' => $classInfo['method'] ?: 'unknown',
-                        'line' => $lineNumber
+                        'line' => $lineNumber,
                     ];
                 }
             }
@@ -212,14 +215,14 @@ class HookListCommand extends Command
         preg_match_all('/(?:public|private|protected)?\s*function\s+(\w+)\s*\(/', $beforeOffset, $methodMatches, PREG_OFFSET_CAPTURE);
 
         $methodName = null;
-        if (!empty($methodMatches[1])) {
+        if (! empty($methodMatches[1])) {
             $lastMethod = end($methodMatches[1]);
             $methodName = $lastMethod[0];
         }
 
         return [
             'class' => $className,
-            'method' => $methodName
+            'method' => $methodName,
         ];
     }
 }

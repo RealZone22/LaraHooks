@@ -5,7 +5,9 @@ namespace RealZone22\LaraHooks;
 class Callback
 {
     protected $function;
+
     protected $parameters = [];
+
     protected $run = true;
 
     public function __construct($function, $parameters = [])
@@ -25,7 +27,7 @@ class Callback
             $this->run = false;
             $params = $parameters ?: $this->parameters;
 
-            if (is_array($params) && !array_is_list($params)) {
+            if (is_array($params) && ! array_is_list($params)) {
                 $params = [$params];
             }
 
