@@ -22,7 +22,7 @@ class HookListCommand extends Command
      */
     private function displayRegisteredHooks(): void
     {
-        $list = LaraHooks::getListeners();
+        $list = LaraHooks::getListeners(); // @phpstan-ignore-line
         $array = [];
 
         foreach ($list as $hook => $lister) {

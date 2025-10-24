@@ -33,7 +33,7 @@ class LaraHooks
         $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 3)[2];
 
         if (in_array(Arr::get($caller, 'function'), ['include', 'require'])) {
-            $caller = debug_backtrace(null, 4)[3];
+            $caller = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 4)[3];
         }
 
         if (empty($this->watch[$hook])) {
