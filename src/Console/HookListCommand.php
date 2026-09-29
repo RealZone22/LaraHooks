@@ -71,7 +71,7 @@ class HookListCommand extends Command
     private function findHooksInTemplates(): array
     {
         $hooks = [];
-        $viewPaths = config('view.paths', [resource_path('views')]);
+        $viewPaths = [base_path()];
 
         foreach ($viewPaths as $path) {
             $this->scanDirectory($path, $hooks);
@@ -89,12 +89,17 @@ class HookListCommand extends Command
             return;
         }
 
+        $basename = basename($directory);
+        if (in_array($basename, ['vendor', 'storage', 'node_modules'])) {
+            return;
+        }
+
         $files = glob($directory.'/*.blade.php');
         $directories = glob($directory.'/*', GLOB_ONLYDIR);
 
         foreach ($files as $file) {
             $content = file_get_contents($file);
-            $relativePath = str_replace(resource_path('views/'), '', $file);
+            $relativePath = str_replace(base_path(), '', $file);
 
             preg_match_all('/@(?:hook|shook)\([\'"]([^\'"]+)[\'"]\)/', $content, $matches);
 
@@ -152,7 +157,7 @@ class HookListCommand extends Command
     private function findHooksInClasses(): array
     {
         $hooks = [];
-        $appPath = app_path();
+        $appPath = base_path();
 
         $this->scanPhpDirectory($appPath, $hooks);
 
@@ -165,6 +170,11 @@ class HookListCommand extends Command
     private function scanPhpDirectory(string $directory, array &$hooks): void
     {
         if (! is_dir($directory)) {
+            return;
+        }
+
+        $basename = basename($directory);
+        if (in_array($basename, ['vendor', 'storage', 'node_modules'])) {
             return;
         }
 
