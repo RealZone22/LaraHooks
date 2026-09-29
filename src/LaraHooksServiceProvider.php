@@ -32,7 +32,11 @@ class LaraHooksServiceProvider extends PackageServiceProvider
             $name = trim($parameters[0], "'");
 
             return ' <'.'?php
-                $__hook_name="'.$name.'";
+                if (!isset($__hook_name_stack)) {
+                    $__hook_name_stack = [];
+                }
+                array_push($__hook_name_stack, "'.$name.'");
+                $__hook_name = end($__hook_name_stack);
                 $__definedVars = get_defined_vars();
 
                 ob_start();
@@ -43,9 +47,11 @@ class LaraHooksServiceProvider extends PackageServiceProvider
         Blade::directive('endhook', function ($parameter) {
             return ' <'.'?php
                 $__definedVars = get_defined_vars();
+                unset($__definedVars["__hook_name_stack"]);
                 unset($__definedVars["__hook_name"]);
                 unset($__definedVars["__hook_has_endhook"]);
                 $__hook_content = ob_get_clean();
+                $__hook_name = array_pop($__hook_name_stack);
                 $output = \RealZone22\LaraHooks\Facades\LaraHooks::get("'.config('larahooks.blade_prefix').'$__hook_name",["data"=>$__definedVars],function($data) { return null; },$__hook_content);
                 unset($__hook_name);
                 unset($__hook_content);
