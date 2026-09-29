@@ -17,7 +17,7 @@ class LaraHooks
     /**
      * Stop all another hook running.
      *
-     * @param  string  $hook  LaraHooks name
+     * @param string $hook LaraHooks name
      */
     public function stop($hook)
     {
@@ -27,7 +27,7 @@ class LaraHooks
     /**
      * Subscribe to hook.
      *
-     * @param  string  $hook  LaraHooks name
+     * @param string $hook LaraHooks name
      */
     public function listen($hook, $function, $priority = null)
     {
@@ -41,7 +41,7 @@ class LaraHooks
             $this->watch[$hook] = [];
         }
 
-        if (! is_numeric($priority)) {
+        if (!is_numeric($priority)) {
             $priority = null;
         }
 
@@ -58,9 +58,9 @@ class LaraHooks
     /**
      * Return the hook answer.
      *
-     * @param  string  $hook  LaraHooks name
-     * @param  array  $params
-     * @param  string  $htmlContent  content wrapped by hook
+     * @param string $hook LaraHooks name
+     * @param array $params
+     * @param string $htmlContent content wrapped by hook
      * @return null|void
      */
     public function get($hook, $params = [], ?callable $callback = null, $htmlContent = '')
@@ -74,7 +74,7 @@ class LaraHooks
 
         $output = $this->run($hook, $params, $callbackObject, $htmlContent);
 
-        if (! $output) {
+        if (!$output) {
             $output = $callbackObject->call();
         }
 
@@ -86,8 +86,8 @@ class LaraHooks
     /**
      * Return a new callback object.
      *
-     * @param  callable  $callback  function
-     * @param  array  $params  parameters
+     * @param callable $callback function
+     * @param array $params parameters
      * @return Callback
      */
     protected function createCallbackObject($callback, $params)
@@ -98,7 +98,7 @@ class LaraHooks
     /**
      * Return the mock value.
      *
-     * @param  string  $hook  LaraHooks name
+     * @param string $hook LaraHooks name
      * @return null|mixed
      */
     protected function returnMockIfDebugModeAndMockExists($hook)
@@ -116,10 +116,10 @@ class LaraHooks
     /**
      * Run hook events.
      *
-     * @param  string  $hook  LaraHooks name
-     * @param  array  $params  Parameters
-     * @param  Callback  $callback  Callback object
-     * @param  string  $output  html wrapped by hook
+     * @param string $hook LaraHooks name
+     * @param array $params Parameters
+     * @param Callback $callback Callback object
+     * @param string $output html wrapped by hook
      * @return mixed
      */
     protected function run($hook, $params, Callback $callback, $output = null)
@@ -127,7 +127,7 @@ class LaraHooks
         if (array_key_exists($hook, $this->watch)) {
             if (is_array($this->watch[$hook])) {
                 foreach ($this->watch[$hook] as $function) {
-                    if (! empty($this->stop[$hook])) {
+                    if (!empty($this->stop[$hook])) {
                         unset($this->stop[$hook]);
                         break;
                     }
@@ -159,7 +159,7 @@ class LaraHooks
     /**
      * Return all listeners for hook.
      *
-     * @param  string  $hook
+     * @param string $hook
      * @return array
      */
     public function getEvents($hook)
@@ -176,8 +176,8 @@ class LaraHooks
     /**
      * For testing.
      *
-     * @param  string  $name  LaraHooks name
-     * @param  mixed  $return  Answer
+     * @param string $name LaraHooks name
+     * @param mixed $return Answer
      */
     public function mock($name, $return)
     {

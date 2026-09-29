@@ -27,7 +27,7 @@ class Callback
             $this->run = false;
             $params = $parameters ?: $this->parameters;
 
-            if (is_array($params) && ! array_is_list($params)) {
+            if (is_array($params) && !array_is_list($params)) {
                 $params = [$params];
             }
 
