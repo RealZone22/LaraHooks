@@ -18,8 +18,7 @@ class LaraHooksServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('larahooks')
-            ->hasCommand(HookListCommand::class)
-            ->hasConfigFile();
+            ->hasCommand(HookListCommand::class);
 
         $this->bootDirectives();
     }
@@ -52,7 +51,7 @@ class LaraHooksServiceProvider extends PackageServiceProvider
                 unset($__definedVars["__hook_has_endhook"]);
                 $__hook_content = ob_get_clean();
                 $__hook_name = array_pop($__hook_name_stack);
-                $output = \RealZone22\LaraHooks\Facades\LaraHooks::get("'.config('larahooks.blade_prefix').'$__hook_name",["data"=>$__definedVars],function($data) { return null; },$__hook_content);
+                $output = \RealZone22\LaraHooks\Facades\LaraHooks::get("$__hook_name",["data"=>$__definedVars],function($data) { return null; },$__hook_content);
                 unset($__hook_name);
                 unset($__hook_content);
                 if ($output) echo $output;
@@ -66,7 +65,7 @@ class LaraHooksServiceProvider extends PackageServiceProvider
 
             return ' <'.'?php
                 $__definedVars = get_defined_vars();
-                $output = \RealZone22\LaraHooks\Facades\LaraHooks::get("'.config('larahooks.blade_prefix').''.$name.'",["data"=>$__definedVars],function($data) { return null; });
+                $output = \RealZone22\LaraHooks\Facades\LaraHooks::get("'.$name.'",["data"=>$__definedVars],function($data) { return null; });
                 if ($output) echo $output;
             ?'.'>';
         });
