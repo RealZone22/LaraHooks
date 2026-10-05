@@ -30,21 +30,21 @@ class LaraHooksServiceProvider extends PackageServiceProvider
             $parameters = explode(',', $parameter);
             $name = trim($parameters[0], "'");
 
-            return ' <' . '?php
+            return ' <'.'?php
                 if (!isset($__hook_name_stack)) {
                     $__hook_name_stack = [];
                 }
-                array_push($__hook_name_stack, "' . $name . '");
+                array_push($__hook_name_stack, "'.$name.'");
                 $__hook_name = end($__hook_name_stack);
                 $__definedVars = get_defined_vars();
 
                 ob_start();
                 $__hook_has_endhook = true;
-            ?' . '>';
+            ?'.'>';
         });
 
         Blade::directive('endhook', function ($parameter) {
-            return ' <' . '?php
+            return ' <'.'?php
                 $__definedVars = get_defined_vars();
                 unset($__definedVars["__hook_name_stack"]);
                 unset($__definedVars["__hook_name"]);
@@ -55,7 +55,7 @@ class LaraHooksServiceProvider extends PackageServiceProvider
                 unset($__hook_name);
                 unset($__hook_content);
                 if ($output) echo $output;
-            ?' . '>';
+            ?'.'>';
         });
 
         Blade::directive('shook', function ($parameter) {
@@ -63,11 +63,11 @@ class LaraHooksServiceProvider extends PackageServiceProvider
             $parameters = explode(',', $parameter);
             $name = trim($parameters[0], "'");
 
-            return ' <' . '?php
+            return ' <'.'?php
                 $__definedVars = get_defined_vars();
-                $output = \RealZone22\LaraHooks\Facades\LaraHooks::get("' . $name . '",["data"=>$__definedVars],function($data) { return null; });
+                $output = \RealZone22\LaraHooks\Facades\LaraHooks::get("'.$name.'",["data"=>$__definedVars],function($data) { return null; });
                 if ($output) echo $output;
-            ?' . '>';
+            ?'.'>';
         });
     }
 }
