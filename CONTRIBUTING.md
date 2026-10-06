@@ -68,6 +68,6 @@ Please adhere to the coding style used in the project. This includes:
 
 ## Additional Resources
 
-- [Issue Tracker](https://github.com/RealZone22/LaraHooks/issues)
+- [Issue Tracker](https://git.cyanfox.de/RealZone22/LaraHooks/issues)
 
 We are grateful for your contributions and look forward to collaborating with you!
