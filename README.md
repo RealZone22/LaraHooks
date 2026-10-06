@@ -343,14 +343,6 @@ LaraHooks::getEvents(string $hook): array
 @endhook
 ```
 
-## Configuration
-
-The package works out of the box without configuration. If you need to customize behavior, publish the config file and adjust as needed.
-
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
@@ -358,11 +350,6 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Security Vulnerabilities
 
 Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
-## Credits
-
-- [RealZone22 | Lenny P.](https://github.com/RealZone22)
-- [All Contributors](../../contributors)
 
 ## License
 
